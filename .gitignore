@@ -13,8 +13,9 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Data Lake files (Recommended to keep local)
+# Data Lake files (We track processed data for automation)
 data/raw/*.json
+!data/processed/processed_jobs.csv
 data/processed/*.csv
 
 # OS specific

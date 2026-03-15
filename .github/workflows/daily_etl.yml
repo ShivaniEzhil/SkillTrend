@@ -3,7 +3,10 @@ name: Daily Tech Job ETL
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs every day at midnight UTC
-  workflow_dispatch:      # Allows manual trigger (for testing)
+  workflow_dispatch:      # Allows manual trigger
+
+permissions:
+  contents: write         # Required to push changes back to the repo
 
 jobs:
   build:
@@ -11,11 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-    # turbo
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
@@ -45,6 +47,14 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add data/raw/*.json data/processed/*.csv
-        git commit -m "Automated daily data update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-        git push
+        
+        # Force add the processed data in case of gitignore overlap
+        git add -f data/processed/processed_jobs.csv || true
+        
+        # Check if there are changes to commit
+        if [ -n "$(git status --porcelain)" ]; then
+          git commit -m "Automated daily data update: $(date +'%Y-%m-%d')"
+          git push
+        else
+          echo "No changes to commit. Skipping push."
+        fi
