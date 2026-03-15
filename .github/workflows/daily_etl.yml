@@ -44,17 +44,14 @@ jobs:
         cd ../..
 
     - name: Commit and Push Data Updates
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+  run: |
+    git config --global user.name "github-actions[bot]"
+    git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-        # Using -f (force) to ensure the summary data is tracked despite any .gitignore rules
-        git add -f data/processed/processed_jobs.csv || true
+    git add -f data/raw/*.json
+    git add -f data/processed/*.csv
 
-        if [ -n "$(git status --porcelain)" ]; then
-          git commit -m "Automated daily data update: $(date +'%Y-%m-%d')"
-          git push
-        else
-          echo "No changes to commit."
-        fi
+    git commit -m "Automated daily data update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
+    git push
+
 
