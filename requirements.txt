@@ -6,4 +6,3 @@ python-dotenv
 plotly
 sqlalchemy
 altair==4.2.2
-python-3.11
