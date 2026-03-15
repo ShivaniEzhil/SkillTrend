@@ -13,10 +13,13 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Data Lake files (We track processed data for automation)
-data/raw/*.json
+# Data Lake files
+data/raw/
+data/processed/
+
+# Track only processed summary dataset
+!data/processed/
 !data/processed/processed_jobs.csv
-data/processed/*.csv
 
 # OS specific
 .DS_Store

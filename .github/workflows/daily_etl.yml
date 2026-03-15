@@ -47,14 +47,13 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        
-        # Force add the processed data in case of gitignore overlap
-        git add -f data/processed/processed_jobs.csv || true
-        
-        # Check if there are changes to commit
+
+        git add data/processed/processed_jobs.csv || true
+
         if [ -n "$(git status --porcelain)" ]; then
           git commit -m "Automated daily data update: $(date +'%Y-%m-%d')"
           git push
         else
-          echo "No changes to commit. Skipping push."
+          echo "No changes to commit."
         fi
+
