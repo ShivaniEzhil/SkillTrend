@@ -74,3 +74,17 @@ The **Tech Job Market Intelligence Pipeline** is a professional-grade Data Engin
    ```bash
    python3 tests/test_pipeline.py
    ```
+
+## 🤖 Daily Automation (CI/CD)
+The pipeline is fully automated using **GitHub Actions**. 
+- **Schedule**: Runs every day at 00:00 UTC.
+- **Workflow**:
+  1. Ingests data from Adzuna API.
+  2. Processes and cleans data.
+  3. Commits the updated `processed_jobs.csv` back to the repository.
+- **Monitoring**: You can check the status of daily runs under the **Actions** tab in this GitHub repository.
+
+### Setup for Automation:
+To enable the daily scraper in your own fork, add your Adzuna credentials to **Settings > Secrets and variables > Actions**:
+- `ADZUNA_APP_ID`
+- `ADZUNA_APP_KEY`
