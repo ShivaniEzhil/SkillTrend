@@ -1,26 +1,15 @@
-# Secrets & Environment Variables
+# Secrets
 .env
 
-# Python specific
+# Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-env/
+
+# Virtual environments
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
 
-# Data files
-data/raw/*
-data/processed/*
-
-# Allow the processed dataset used for analytics
-!data/processed/
-!data/processed/processed_jobs.csv
-
-# OS specific
+# OS files
 .DS_Store
 Thumbs.db
+
