@@ -13,11 +13,11 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Data Lake files
-data/raw/
-data/processed/
+# Data files
+data/raw/*
+data/processed/*
 
-# Track only processed summary dataset
+# Allow the processed dataset used for analytics
 !data/processed/
 !data/processed/processed_jobs.csv
 
