@@ -1,0 +1,7 @@
+pandas
+requests
+streamlit
+psycopg2-binary
+python-dotenv
+plotly
+sqlalchemy

@@ -1,0 +1,131 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import os
+import psycopg2
+from dotenv import load_dotenv
+from collections import Counter
+
+# Load environment variables
+load_dotenv()
+
+st.set_page_config(page_title="Tech Job Market Intelligence", layout="wide")
+
+# Database Connection Helper
+def get_db_connection():
+    try:
+        return psycopg2.connect(
+            dbname=os.getenv("DB_NAME", "job_intelligence"),
+            user=os.getenv("DB_USER", "shivani.e1"),
+            password=os.getenv("DB_PASS", ""),
+            host=os.getenv("DB_HOST", "localhost"),
+            port=os.getenv("DB_PORT", "5432")
+        )
+    except Exception as e:
+        st.error(f"Error connecting to PostgreSQL: {e}")
+        return None
+
+# Sidebar Configuration
+st.sidebar.title("🛠 Pipeline Controls")
+source_filter = st.sidebar.multiselect("Select Job Sources", ["Adzuna", "MockSource"], default=["Adzuna", "MockSource"])
+
+# Main Dashboard Header
+st.title("🚀 Tech Job Market Intelligence Pipeline (SQL-Backed)")
+st.markdown("---")
+
+# Data Retrieval from PostgreSQL
+conn = get_db_connection()
+if conn:
+    # 1. Fetch Global Job Stats
+    query_jobs = """
+        SELECT j.job_id, j.title, j.company, j.location, j.posted_date, j.source, s.skill_name
+        FROM jobs j
+        LEFT JOIN job_skills js ON j.job_id = js.job_id
+        LEFT JOIN skills s ON js.skill_id = s.skill_id
+        WHERE j.source IN %s
+    """
+    df_raw = pd.read_sql(query_jobs, conn, params=(tuple(source_filter),))
+    conn.close()
+
+    if not df_raw.empty:
+        # Data Processing for Dashboard
+        # Group skills back into lists per job
+        df = df_raw.groupby(['job_id', 'title', 'company', 'location', 'posted_date', 'source'])['skill_name'].apply(list).reset_index()
+        df['skill_count'] = df['skill_name'].apply(lambda x: len([s for s in x if s is not None]))
+
+        # --- Row 1: Key Metrics ---
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Total Jobs Analyzed", len(df))
+        m2.metric("Unique Skills Found", df_raw['skill_name'].nunique())
+        m3.metric("Top Company", df['company'].mode()[0] if not df['company'].empty else "N/A")
+        m4.metric("Top Location", df['location'].mode()[0] if not df['location'].empty else "N/A")
+
+        st.markdown("### 📊 Market Insights")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("🔥 Top Demanded Skills")
+            all_skills = [s for s in df_raw['skill_name'] if s]
+            skill_counts = Counter(all_skills).most_common(12)
+            skill_df = pd.DataFrame(skill_counts, columns=['Skill', 'Count'])
+            fig_skills = px.bar(skill_df, x='Skill', y='Count', color='Count', template="plotly_dark", color_continuous_scale="Blues")
+            st.plotly_chart(fig_skills, use_container_width=True)
+
+        with col2:
+            st.subheader("🏢 Top Hiring Companies")
+            company_counts = df['company'].value_counts().head(10).reset_index()
+            company_counts.columns = ['Company', 'Job Count']
+            fig_comp = px.bar(company_counts, y='Company', x='Job Count', orientation='h', template="plotly_dark", color="Job Count")
+            st.plotly_chart(fig_comp, use_container_width=True)
+
+        # --- Row 2: Geospatial & Trends ---
+        st.markdown("---")
+        col3, col4 = st.columns(2)
+
+        with col3:
+            st.subheader("📍 Job Distribution by City")
+            loc_counts = df['location'].value_counts().reset_index()
+            loc_counts.columns = ['Location', 'Count']
+            fig_loc = px.pie(loc_counts, names='Location', values='Count', hole=0.5, template="plotly_dark", color_discrete_sequence=px.colors.sequential.RdBu)
+            st.plotly_chart(fig_loc, use_container_width=True)
+
+        with col4:
+            st.subheader("📈 Hiring Trend Over Time")
+            df['posted_date'] = pd.to_datetime(df['posted_date'])
+            trend_df = df.groupby(df['posted_date'].dt.date).size().reset_index(name='Count')
+            fig_trend = px.line(trend_df, x='posted_date', y='Count', markers=True, template="plotly_dark", line_shape="spline")
+            st.plotly_chart(fig_trend, use_container_width=True)
+
+        # --- Row 3: Skill Co-occurrence Heatmap ---
+        st.markdown("---")
+        st.subheader("🤝 Skill Bundle Analysis (Co-occurrence)")
+        pairs = []
+        for x in df['skill_name']:
+            skills_list = sorted([s for s in x if s])
+            for i in range(len(skills_list)):
+                for j in range(i + 1, len(skills_list)):
+                    pairs.append(tuple(sorted((skills_list[i], skills_list[j]))))
+        
+        pair_counts = Counter(pairs).most_common(15)
+        if pair_counts:
+            pair_df = pd.DataFrame([{"Pair": f"{p[0]} + {p[1]}", "Frequency": c} for p, c in pair_counts])
+            fig_co = px.bar(pair_df, x='Frequency', y='Pair', orientation='h', template="plotly_dark", color="Frequency")
+            st.plotly_chart(fig_co, use_container_width=True)
+        else:
+            st.info("Not enough skill pairs found for co-occurrence analysis yet.")
+
+        # --- Bonus Feature: Recommendation Insights ---
+        st.markdown("---")
+        st.subheader("💡 Actionable Insights for Candidates")
+        top_3_skills = [s[0] for s in skill_counts[:3]]
+        st.success(f"**Market Leader Insights**: The most critical skills right now are **{', '.join(top_3_skills)}**. "
+                   f"Candidates proficient in these areas have access to **{int((len(all_skills)/len(df))*100)}%** of the analyzed job market.")
+
+        st.subheader("📋 Recent Job Listings (Direct from SQL)")
+        st.dataframe(df[['title', 'company', 'location', 'posted_date', 'skill_name', 'source']].sort_values('posted_date', ascending=False), use_container_width=True)
+
+    else:
+        st.warning("No data found matching the selected filters. Try running the extraction and DB loader first.")
+else:
+    st.error("Could not connect to the database. Please check your .env file and ensure PostgreSQL is running.")
