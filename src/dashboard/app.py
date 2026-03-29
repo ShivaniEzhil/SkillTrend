@@ -112,7 +112,9 @@ if not df.empty:
 
     with col4:
         st.subheader("📈 Hiring Trend Over Time")
-        df['posted_date'] = pd.to_datetime(df['posted_date'])
+        df['posted_date'] = df['posted_date'].astype(str).str.strip()
+        df['posted_date'] = pd.to_datetime(df['posted_date'], format='mixed', errors='coerce', utc=True)
+        df = df.dropna(subset=['posted_date'])
         trend_df = df.groupby(df['posted_date'].dt.date).size().reset_index(name='Count')
         fig_trend = px.line(trend_df, x='posted_date', y='Count', markers=True, template="plotly_dark", line_shape="spline")
         st.plotly_chart(fig_trend, use_container_width=True)
