@@ -1,0 +1,92 @@
+[
+    {
+        "id": "5712897401",
+        "title": "Data Engineer",
+        "company": "CBTS",
+        "location": "India",
+        "description": "Looking for your next move in Data Engineering? CBTS India is hiring experienced Data Engineering professionals for remote roles!  Open Role: \u2022 Data Engineer \u2705 What we\u2019re looking for: \u2022 3 years of experience in Data Engineering or related roles \u2022 Experience with ETL and in building data ingestion pipelines \u2022 Microsoft Fabric Core skills \u2022 Experience with cloud platforms (AWS) \u2022 Strong problem-solving and communication skills \u2728 What you get: \u2022 Exposure to large-scale enterprise data projects \u2022 C\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-29T00:39:18Z"
+    },
+    {
+        "id": "5709941414",
+        "title": "Data Engineer",
+        "company": "Tata Consultancy Services",
+        "location": "Hyderabad, Telangana",
+        "description": "Job Title : Google Data Engineer / Lead Experience : 3-15 years Job Summary : An experienced Google Data Engineer / Lead to design, develop, and maintain large-scale data processing systems on Google Cloud Platform (GCP). The ideal candidate should have a strong background in data engineering, data warehousing, and cloud-based data platforms. Responsibilities: Data Pipeline Development: Design, develop, and maintain data pipelines using Google Cloud Dataflow, Cloud Composer, and BigQuery. Data \u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-25T07:54:41Z"
+    },
+    {
+        "id": "5711045436",
+        "title": "Data Engineer",
+        "company": "Tata Consultancy Services",
+        "location": "India",
+        "description": " We\u2019re Hiring | Data Engineer \u2013 Databricks  Locations: Bangalore/ Pune  Experience: 8-12 Years Are you a Data Engineer passionate about building scalable data pipelines and working with modern cloud data platforms? We\u2019re looking for talented professionals to join a high-impact data engineering team working on large-scale, cloud-native data solutions.  Key Responsibilities Design, develop, and maintain scalable ETL/data pipelines on Databricks Work with AWS/Azure data engineering services to pro\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-26T18:25:44Z"
+    },
+    {
+        "id": "5721148629",
+        "title": "Data Engineer",
+        "company": "VAANTECH",
+        "location": "Chennai, Tamil Nadu",
+        "description": "We\u2019re Hiring: Data Engineer Position: Data Engineer Experience Required: 3 Years Notice Period: Immediate Joiner (or within 15 days) Location: Chennai (Remote) Shift: Includes Night Shifts (US Shift) Preferred Candidates: From Chennai only Skills We\u2019re Looking For: SQL, Python, ETL Apache Airflow Data Pipeline Optimization & Tuning Data Modelling Hadoop Infra / Cloud Platforms Roles & Responsibilities Lead and mentor a team of data engineers by providing guidance, support, and feedback. Design \u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-07T08:26:27Z"
+    },
+    {
+        "id": "5715810199",
+        "title": "Data Engineer",
+        "company": "ACL Digital",
+        "location": "Bangalore, Karnataka",
+        "description": " ACL Digital is Hiring | AWS Data Engineer We are looking for experienced AWS Data Engineers to join our growing team!  Role: AWS Data Engineer  Location: Bangalore (Client Location)  Experience: 5 Years  Notice Period: Immediate Joiners Preferred  Work Mode: Hybrid (Weekly 3 Days)  Interview Mode: L1 Virtual | L2 Face-to-Face  Key Skills: \u2022 Strong experience in AWS Data Engineering \u2022 Hands-on expertise with AWS services like Glue, Lambda, S3, Redshift, EMR \u2022 Strong SQL and Python skills \u2022 Expe\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-01T16:59:53Z"
+    },
+    {
+        "id": "5714427213",
+        "title": "Data Engineer",
+        "company": "Tata Consultancy Services",
+        "location": "Hyderabad, Telangana",
+        "description": "Role: AWS Data Engineer Experience: 5 Years Location: PAN India Summary: We are looking for an experienced AWS Data Engineer with strong Python and data engineering skills to design, build, and manage scalable data pipelines and cloud infrastructure. The role involves working with AWS services, Data Lake architecture, Greengrass-based data collection, and integrating enterprise data sources for analytics and visualization. Key Responsibilities: Design and implement data transformation pipelines\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-30T14:50:35Z"
+    },
+    {
+        "id": "5722450671",
+        "title": "Data Engineer",
+        "company": "NR Consulting",
+        "location": "Bangalore, Karnataka",
+        "description": "Role Summary We are seeking a Lead Data Engineer with deep expertise in Snowflake and dbt to lead design, development, and delivery of modern data platforms. This role requires strong technical ownership, solution leadership, and the ability to guide teams in delivering high-quality, analytics-ready data solutions in a client-facing environment. Key Responsibilities Technical Leadership & Delivery Lead the architecture, design, and implementation of scalable data platforms using Snowflake and d\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-08T08:24:40Z"
+    },
+    {
+        "id": "5703562271",
+        "title": "Data Engineer",
+        "company": "Ujjivan Small Finance Bank",
+        "location": "Bangalore, Karnataka",
+        "description": "JOB DESCRIPTION The Data Engineer will support the development, execution, and monitoring of data pipelines, ensuring reliable and secure data delivery for analytics, reporting, and decision-making across the bank. Key Responsibilities Develop and enhance ETL pipelines under guidance from senior engineers. Perform data ingestion, transformation, and basic modelling tasks. Monitor pipeline execution, identify failures, and support issue resolution. Execute data validation, reconciliation, and qu\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-18T17:08:55Z"
+    },
+    {
+        "id": "5716670070",
+        "title": "Data Engineer",
+        "company": "Sikich India",
+        "location": "India",
+        "description": "Sikich India is seeking an experienced Data Engineer to join our Data & AI practice. You will design, build, and optimize end-to-end data solutions using Microsoft\u2019s data platforms, including Microsoft Fabric, Azure Synapse Analytics, Databricks, and Power BI. Your work will involve implementing contemporary data architecture patterns (e.g., medallion, DataMesh, Zone-Based, or Lambda, etc), creating robust data pipelines, and delivering insight-driven analytics to help clients make informed dec\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-02T11:06:16Z"
+    },
+    {
+        "id": "5702486947",
+        "title": "Data Engineer",
+        "company": "Acuity Analytics",
+        "location": "India",
+        "description": "We are seeking a seasoned Data Engineer to design, build, and operate scalable, reliable, production\u2011grade data pipelines on Azure . This role requires deep, hands\u2011on expertise in PySpark, Python, Azure Synapse , and modern data orchestration frameworks - Dagster . The role demands a strong understanding of distributed data processing, cloud-based data lake architectures, and end\u2011to\u2011end pipeline ownership, spanning raw data ingestion to analytics\u2011ready datasets. Immediate joiners highly preferr\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-04-17T17:05:21Z"
+    }
+]
