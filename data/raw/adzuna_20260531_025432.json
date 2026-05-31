@@ -1,0 +1,92 @@
+[
+    {
+        "id": "5513049976",
+        "title": "Data Engineer-Data engineer-Engineering",
+        "company": "EXL",
+        "location": "Noida, Ghaziabad",
+        "description": "Description Data Engineers design and build data systems and pipelines. Responsibilities include developing data processing workflows, optimizing data storage, and ensuring data accuracy. You will collaborate with data scientists and analysts to meet data requirements and resolve data issues. Strong experience in data engineering and problem-solving skills are required. Responsibilities Design and implement data pipelines, Optimize data processing and storage, Ensure data solutions meet perform\u2026",
+        "source": "Adzuna",
+        "posted_date": "2025-11-25T23:00:33Z"
+    },
+    {
+        "id": "5493326948",
+        "title": "Data Engineer-Data Engineering-Big Data Engineering",
+        "company": "EXL",
+        "location": "Pune, Maharashtra",
+        "description": "Description Job Summary: We are seeking an experienced GCP Data Engineer with strong expertise in designing, building, and managing scalable data pipelines and analytical solutions on Google Cloud Platform (GCP) . The ideal candidate will have a solid background in big data technologies, data warehousing, and cloud-based data architecture, with hands-on experience using GCP-native tools. Key Responsibilities: Design, develop, and maintain data pipelines and ETL processes on GCP using services l\u2026",
+        "source": "Adzuna",
+        "posted_date": "2025-11-13T16:47:37Z"
+    },
+    {
+        "id": "5744696291",
+        "title": "Data Engineer",
+        "company": "Trigent Software Private Limited",
+        "location": "Noida, Ghaziabad",
+        "description": "Job Description Data Engineer (2-8 Years Experience) Location: Noida, Bangalore Role Overview We are seeking a skilled Data Engineer to design, build, and maintain scalable data pipelines and data platforms that enable analytics, reporting, and advanced data use cases. The role requires strong expertise in data modeling, ETL/ELT frameworks, and performance optimization to support high-volume, high-velocity data processing. Experience Minimum 2 years of hands-on experience in Data Engineering, E\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-29T22:36:25Z"
+    },
+    {
+        "id": "5720620265",
+        "title": "Data Engineer",
+        "company": "Syngenta Crop Protection",
+        "location": "Pune, Maharashtra",
+        "description": "Job Description We\u2019re hiring experienced Data Engineer to support large-scale data transformation project. You\u2019ll be embedded within a high-performing team delivering mission-critical data platforms using Databricks and AWS . This is a hands-on engineering role focused on architecture, implementation, and optimization of robust data solutions at scale. Key Responsibilities Design, build, and deploy data pipelines and platforms using Databricks and cloud infrastructure (preferably AWS) Lead or c\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-06T20:52:47Z"
+    },
+    {
+        "id": "5576136478",
+        "title": "Data Engineer",
+        "company": "NPS Prism",
+        "location": "Mini Sectt., Gurgaon",
+        "description": "NPS Prism Title: Data Engineer Hiring Location: Gurugram, India (Work From Home Role) Experience: 3\u20136 Years Employment Type: Full-time Company Profile: NPS Prism is a market-leading, cloud-based CX benchmarking and operational improvement platform owned by Bain & Company. NPS Prism provides its customers with actionable insights and analysis that guide the creation of game-changing customer experiences. Based on rock-solid sampling, research, and analytic methodology, it lets customers see how \u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-09T23:42:52Z"
+    },
+    {
+        "id": "5741143261",
+        "title": "Data Engineer",
+        "company": "Vrinda International",
+        "location": "Richmond Town, Bangalore",
+        "description": "Hiring Alert | Data Engineer Location: Bangalore Work Mode: Work From Office (WFO) Experience: 5\u20137 Years CTC: 10\u201315 LPA Notice Period: Immediate to 15 Days (Serving NP Preferred) Interview Process: \u2022 1st Round \u2013 Virtual \u2022 2nd & 3rd Rounds \u2013 Face to Face (F2F) Job Responsibilities: \u2022 Design, build, and manage scalable data pipelines \u2022 Develop datasets for analytics, AI evaluation, and business metrics \u2022 Build fault-tolerant data ingestion & processing systems \u2022 Collaborate with Product, Data Sci\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-26T16:23:32Z"
+    },
+    {
+        "id": "5744014976",
+        "title": "Data Engineer",
+        "company": "AVIGNAAI PRIVATE LIMITED",
+        "location": "Baner, Pune",
+        "description": "Dear Candidate, We are excited to share an opportunity at Avigna.AI for the position of Data Engineer. We're looking for professionals with strong data engineering experience who can contribute to building scalable, intelligent data solutions and have a passion for solving complex problems. Position Details: Role: Data Engineer Location: Pune, Baner (Work from Office) Experience: 6 years Working Days: Monday to Friday (9:30 AM \u2013 6:30 PM) Education: Bachelor\u2019s or Master\u2019s in Computer Science, En\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-29T04:35:45Z"
+    },
+    {
+        "id": "5741331735",
+        "title": "Data Engineering",
+        "company": "Trigent Software Private Limited",
+        "location": "India",
+        "description": "Summary: As a Custom Software Engineer, a typical day involves creating tailored software solutions by designing, coding, and improving various components within systems or applications. The role requires working with contemporary frameworks and following agile methodologies to ensure the delivery of scalable and efficient software that meets unique business requirements. Collaboration with different teams and continuous enhancement of software performance are integral parts of the daily routin\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-26T22:33:42Z"
+    },
+    {
+        "id": "5577277789",
+        "title": "Data Engineer",
+        "company": "Ikigai Labs",
+        "location": "India",
+        "description": "We are seeking a Data Engineer who excels in cleaning, transforming, and preparing complex data for integration into machine learning models. In this role, you will work closely with clients to understand their data and ensure it is properly formatted, validated, and optimized for use in our data pipelines. This position emphasizes data hygiene, reconciliation, and transformation\u2014turning raw, messy data into structured, reliable datasets that flow seamlessly through our systems. The ideal candi\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-10T08:42:53Z"
+    },
+    {
+        "id": "4732696920",
+        "title": "Data Engineer",
+        "company": "Mindpool Technologies",
+        "location": "Yerwada, Pune",
+        "description": "Mindpool Technology is hiring for Data Engineer for Pune Location Job Description Our Technical team is looking for a Data Engineer to part of EDWBI platform team to help build Data Validation framework and related validation reports leveraging existing EDWBI platform along with regular enhancements and support for the core platform. The Data Engineer combines a passion for improving data quality and integrity and applies innovation and creative thinking to develop a continuous data improvement\u2026",
+        "source": "Adzuna",
+        "posted_date": "2024-06-12T17:20:00Z"
+    }
+]
