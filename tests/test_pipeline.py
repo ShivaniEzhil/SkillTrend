@@ -1,6 +1,14 @@
 import sys
 import os
 
+# Reconfigure stdout/stderr to use UTF-8 encoding on Windows to prevent UnicodeEncodeError with emojis
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass
+
 # Add the src/processing directory to sys.path so we can import the processor
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src/processing')))
 

@@ -21,8 +21,9 @@ def extract_skills(description):
 
 def process_raw_data():
     """Processes all JSON files in data/raw and saves to data/processed."""
-    raw_dir = "../../data/raw"
-    processed_dir = "../../data/processed"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    raw_dir = os.path.abspath(os.path.join(base_dir, "../../data/raw"))
+    processed_dir = os.path.abspath(os.path.join(base_dir, "../../data/processed"))
     os.makedirs(processed_dir, exist_ok=True)
     
     all_jobs = []
