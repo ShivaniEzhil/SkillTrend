@@ -38,6 +38,8 @@ st.markdown("---")
 conn = get_db_connection()
 if conn:
     st.sidebar.success("✅ Connected to PostgreSQL Data Warehouse")
+    
+    # 1. Fetch raw data for metrics, co-occurrence, and recent listings
     query_jobs = """
         SELECT j.job_id, j.title, j.company, j.location, j.posted_date, j.source, s.skill_name
         FROM jobs j
@@ -46,6 +48,29 @@ if conn:
         WHERE j.source IN %s
     """
     df_raw = pd.read_sql(query_jobs, conn, params=(tuple(source_filter),))
+    
+    # 2. Fetch pre-aggregated data directly from PostgreSQL views (no source filtering needed)
+    skill_df = pd.read_sql(
+        "SELECT skill_name AS \"Skill\", demand_count AS \"Count\" FROM vw_skill_demand LIMIT 12",
+        conn
+    )
+
+    company_counts = pd.read_sql(
+        "SELECT company AS \"Company\", hiring_count AS \"Job Count\" FROM vw_company_hiring LIMIT 10",
+        conn
+    )
+
+    loc_counts = pd.read_sql(
+        "SELECT location AS \"Location\", total_jobs AS \"Count\" FROM vw_location_demand",
+        conn
+    )
+
+    trend_df = pd.read_sql(
+        "SELECT posted_day AS \"posted_date\", jobs_posted AS \"Count\" FROM vw_daily_job_trend",
+        conn
+    )
+    trend_df['posted_date'] = pd.to_datetime(trend_df['posted_date']).dt.date
+    
     conn.close()
     
     # Group skills back into lists per job
@@ -66,9 +91,30 @@ else:
         df = df[df['source'].isin(source_filter)]
         # Create a flat version for skill counts
         df_raw = df.explode('skill_name')
+        
+        # Perform identical offline aggregations in Pandas to match the views
+        all_skills_offline = [s for s in df_raw['skill_name'] if s]
+        skill_counts_offline = Counter(all_skills_offline).most_common(12)
+        skill_df = pd.DataFrame(skill_counts_offline, columns=['Skill', 'Count'])
+        
+        company_counts = df['company'].value_counts().head(10).reset_index()
+        company_counts.columns = ['Company', 'Job Count']
+        
+        loc_counts = df['location'].value_counts().reset_index()
+        loc_counts.columns = ['Location', 'Count']
+        
+        df_clean = df.dropna(subset=['posted_date']).copy()
+        df_clean['posted_date'] = df_clean['posted_date'].astype(str).str.strip()
+        df_clean['posted_date'] = pd.to_datetime(df_clean['posted_date'], format='mixed', errors='coerce', utc=True)
+        df_clean = df_clean.dropna(subset=['posted_date'])
+        trend_df = df_clean.groupby(df_clean['posted_date'].dt.date).size().reset_index(name='Count')
     else:
         df = pd.DataFrame()
         df_raw = pd.DataFrame()
+        skill_df = pd.DataFrame(columns=['Skill', 'Count'])
+        company_counts = pd.DataFrame(columns=['Company', 'Job Count'])
+        loc_counts = pd.DataFrame(columns=['Location', 'Count'])
+        trend_df = pd.DataFrame(columns=['posted_date', 'Count'])
 
 if not df.empty:
     # Data Processing for Dashboard
@@ -84,18 +130,17 @@ if not df.empty:
     st.markdown("### 📊 Market Insights")
     col1, col2 = st.columns(2)
 
+    # For Candidate Insights, compute global stats
+    all_skills = [s for s in df_raw['skill_name'] if s]
+    skill_counts = Counter(all_skills).most_common(12)
+
     with col1:
         st.subheader("🔥 Top Demanded Skills")
-        all_skills = [s for s in df_raw['skill_name'] if s]
-        skill_counts = Counter(all_skills).most_common(12)
-        skill_df = pd.DataFrame(skill_counts, columns=['Skill', 'Count'])
         fig_skills = px.bar(skill_df, x='Skill', y='Count', color='Count', template="plotly_dark", color_continuous_scale="Blues")
         st.plotly_chart(fig_skills, use_container_width=True)
 
     with col2:
         st.subheader("🏢 Top Hiring Companies")
-        company_counts = df['company'].value_counts().head(10).reset_index()
-        company_counts.columns = ['Company', 'Job Count']
         fig_comp = px.bar(company_counts, y='Company', x='Job Count', orientation='h', template="plotly_dark", color="Job Count")
         st.plotly_chart(fig_comp, use_container_width=True)
 
@@ -105,17 +150,11 @@ if not df.empty:
 
     with col3:
         st.subheader("📍 Job Distribution by City")
-        loc_counts = df['location'].value_counts().reset_index()
-        loc_counts.columns = ['Location', 'Count']
         fig_loc = px.pie(loc_counts, names='Location', values='Count', hole=0.5, template="plotly_dark", color_discrete_sequence=px.colors.sequential.RdBu)
         st.plotly_chart(fig_loc, use_container_width=True)
 
     with col4:
         st.subheader("📈 Hiring Trend Over Time")
-        df['posted_date'] = df['posted_date'].astype(str).str.strip()
-        df['posted_date'] = pd.to_datetime(df['posted_date'], format='mixed', errors='coerce', utc=True)
-        df = df.dropna(subset=['posted_date'])
-        trend_df = df.groupby(df['posted_date'].dt.date).size().reset_index(name='Count')
         fig_trend = px.line(trend_df, x='posted_date', y='Count', markers=True, template="plotly_dark", line_shape="spline")
         st.plotly_chart(fig_trend, use_container_width=True)
 
