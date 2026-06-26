@@ -1,90 +1,327 @@
 # 🚀 Tech Job Market Intelligence Pipeline
 
 ## 📌 Project Overview
-The **Tech Job Market Intelligence Pipeline** is a professional-grade Data Engineering project designed to track, analyze, and visualize global tech hiring trends. It automates the collection of job data from APIs, processes it into a searchable data warehouse, and provides interactive insights into skill demand and geographic hiring patterns.
 
-### Why this stands out on a resume:
-- **Multi-Source Ingestion**: Handles both mock data (for development) and real-world API data (Adzuna).
-- **Data Lake Architecture**: Stores raw JSON data before processing, following industry-standard ELT/ETL patterns.
-- **Skill Taxonomy Engine**: Uses a specialized dictionary to categorize raw job descriptions into 60+ technical skills.
-- **PostgreSQL Data Warehouse**: Implements a normalized SQL schema (Jobs, Skills, Junction tables).
-- **Advanced Analytics**: Visualizes skill co-occurrence (e.g., Python + SQL) and hiring heatmaps.
+The **Tech Job Market Intelligence Pipeline** is an end-to-end **Data Engineering** project that automates the collection, processing, storage, and visualization of technology job market data. It extracts job postings from the Adzuna API, processes and deduplicates the data, stores it in a **Neon PostgreSQL** cloud database, and presents interactive analytics through a **Streamlit dashboard**.
+
+The project demonstrates a complete modern ETL pipeline with cloud database integration, automated workflows, data warehousing, and business intelligence visualization.
 
 ---
 
-## 🏗 System Architecture
+# ✨ Features
+
+* 🔄 Automated daily ETL pipeline using GitHub Actions
+* ☁️ Cloud-hosted PostgreSQL database (Neon)
+* 📥 Real-time job extraction using the Adzuna API
+* 🧹 Automatic duplicate detection and removal
+* 🏗 Normalized PostgreSQL data warehouse
+* 📊 Interactive Streamlit dashboard
+* 📈 SQL Views for analytics
+* 🔐 Secure environment variable management
+* ⚡ Bulk data loading using optimized PostgreSQL inserts
+
+---
+
+# 🏗 System Architecture
+
 ```
-[ Job API / Scraper ] -> [ Data Lake (JSON) ] -> [ ETL Processor ] -> [ PostgreSQL (DW) ] -> [ Streamlit Dashboard ]
+                +----------------+
+                |  Adzuna API    |
+                +-------+--------+
+                        |
+                        v
+             Raw JSON Data Lake
+                 (data/raw)
+                        |
+                        v
+          ETL Processing & Cleaning
+         - Skill Extraction
+         - Duplicate Removal
+                        |
+                        v
+         Processed Dataset (CSV)
+       data/processed/processed_jobs.csv
+                        |
+                        v
+      Bulk Loader (execute_values)
+                        |
+                        v
+       Neon PostgreSQL Data Warehouse
+                        |
+          SQL Views (Analytics Layer)
+                        |
+                        v
+          Streamlit Interactive Dashboard
 ```
 
 ---
 
-## 📁 File Structure & Explanations
+# 📂 Project Structure
 
-### 🟢 Extraction (`src/extraction/`)
-- **`mock_extractor.py`**: Generates synthetic job data for testing the pipeline without hitting API limits.
-- **`adzuna_extractor.py`**: Connects to the real Adzuna API, fetches current postings, and standardizes them.
-
-### 🔵 Processing (`src/processing/`)
-- **`skill_taxonomy.py`**: The "Knowledge Base" containing categories for Languages, Cloud, Databases, and Tools.
-- **`processor.py`**: The ETL heart. It reads raw JSON, extracts skills using regex, and generates a structured CSV.
-
-### 🟡 Database (`src/database/`)
-- **`schema_design.sql`**: Professional SQL script to initialize the normalized database structure.
-- **`db_loader.py`**: Automated loader that maps CSV columns to SQL tables and handles many-to-many relationships.
-
-### 🔴 Dashboard (`src/dashboard/`)
-- **`app.py`**: Feature-rich Streamlit application that pulls live data from PostgreSQL.
+```
+SkillTrend/
+│
+├── .github/
+│   └── workflows/
+│       └── daily_etl.yml
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── extraction/
+│   │   ├── adzuna_extractor.py
+│   │   └── mock_extractor.py
+│   │
+│   ├── processing/
+│   │   ├── processor.py
+│   │   └── skill_taxonomy.py
+│   │
+│   ├── database/
+│   │   ├── db_loader.py
+│   │   └── schema_design.sql
+│   │
+│   └── dashboard/
+│       └── app.py
+│
+├── tests/
+│   ├── verify_views.py
+│   └── test_pipeline.py
+│
+├── requirements.txt
+├── README.md
+└── .env.example
+```
 
 ---
 
-## 🛠 Tech Stack
-- **Languages**: Python (Pandas, Requests, Psycopg2, SQLAlchemy)
-- **Database**: PostgreSQL
-- **Visualization**: Streamlit, Plotly
-- **Config**: Python-Dotenv for secure API key management
+# ⚙️ ETL Pipeline
+
+## 1. Data Extraction
+
+* Retrieves live job postings from the Adzuna API
+* Saves raw responses as JSON files
+* Supports mock data for development
 
 ---
 
-## 🚀 Getting Started
+## 2. Data Processing
 
-1. **Clone the project** and install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+The processor:
 
-2. **Configure Environment**:
-   Create a `.env` file based on `.env.example` and add your **Adzuna API Keys** and **PostgreSQL** credentials.
+* Merges all raw JSON files
+* Removes duplicate job postings
+* Extracts technical skills using regex
+* Maps skills using a custom taxonomy
+* Generates a clean processed dataset
 
-3. **Initialize Database**:
-   ```bash
-   createdb job_intelligence
-   psql -d job_intelligence -f src/database/schema_design.sql
-   ```
+Output:
 
-4. **Run the Pipeline**:
-   ```bash
-   python3 src/extraction/adzuna_extractor.py  # Ingest
-   cd src/processing && python3 processor.py   # Process
-   cd ../database && python3 db_loader.py       # Load
-   ```
+```
+data/processed/processed_jobs.csv
+```
 
-6. **Run Tests**:
-   Verify the pipeline logic using the unit tests:
-   ```bash
-   python3 tests/test_pipeline.py
-   ```
+---
 
-## 🤖 Daily Automation (CI/CD)
-The pipeline is fully automated using **GitHub Actions**. 
-- **Schedule**: Runs every day at 00:00 UTC.
-- **Workflow**:
-  1. Ingests data from Adzuna API.
-  2. Processes and cleans data.
-  3. Commits the updated `processed_jobs.csv` back to the repository.
-- **Monitoring**: You can check the status of daily runs under the **Actions** tab in this GitHub repository.
+## 3. Database Loading
 
-### Setup for Automation:
-To enable the daily scraper in your own fork, add your Adzuna credentials to **Settings > Secrets and variables > Actions**:
-- `ADZUNA_APP_ID`
-- `ADZUNA_APP_KEY`
+The loader:
+
+* Initializes the PostgreSQL schema
+* Performs bulk inserts using `execute_values()`
+* Updates existing jobs automatically
+* Creates job-skill relationships
+* Synchronizes data with Neon PostgreSQL
+
+---
+
+## 4. Analytics Layer
+
+SQL Views provide precomputed analytics:
+
+* `vw_skill_demand`
+* `vw_company_hiring`
+* `vw_location_demand`
+* `vw_daily_job_trend`
+
+These views power the Streamlit dashboard.
+
+---
+
+# 📊 Dashboard Features
+
+The dashboard provides:
+
+* 📈 Hiring trends over time
+* 🔥 Most demanded technical skills
+* 🏢 Top hiring companies
+* 📍 Geographic hiring distribution
+* 🤝 Skill co-occurrence analysis
+* 📋 Recent job listings
+* 📊 Key hiring metrics
+
+---
+
+# 🛠 Tech Stack
+
+### Programming
+
+* Python
+
+### Data Engineering
+
+* Pandas
+* Psycopg2
+* PostgreSQL
+* Neon Database
+
+### Visualization
+
+* Streamlit
+* Plotly
+
+### Cloud & DevOps
+
+* GitHub Actions
+* GitHub Secrets
+* Python Dotenv
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/ShivaniEzhil/SkillTrend.git
+
+cd SkillTrend
+```
+
+---
+
+## 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3. Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+ADZUNA_APP_ID=your_app_id
+ADZUNA_APP_KEY=your_app_key
+
+DB_HOST=your_neon_host
+DB_PORT=5432
+DB_NAME=neondb
+DB_USER=neondb_owner
+DB_PASSWORD=your_password
+```
+
+---
+
+## 4. Run the ETL Pipeline
+
+### Extract Data
+
+```bash
+python src/extraction/adzuna_extractor.py
+```
+
+### Process Data
+
+```bash
+python src/processing/processor.py
+```
+
+### Load into Neon PostgreSQL
+
+```bash
+python src/database/db_loader.py
+```
+
+---
+
+## 5. Verify Database Views
+
+```bash
+python tests/verify_views.py
+```
+
+---
+
+## 6. Launch Dashboard
+
+```bash
+streamlit run src/dashboard/app.py
+```
+
+---
+
+# 🤖 GitHub Actions Automation
+
+The project includes a fully automated CI/CD workflow.
+
+Every day the workflow:
+
+1. Extracts new jobs from the Adzuna API
+2. Cleans and deduplicates data
+3. Generates the processed dataset
+4. Synchronizes the Neon PostgreSQL database
+5. Cleans old raw data
+6. Commits updated processed data back to the repository
+
+Required GitHub Secrets:
+
+```
+ADZUNA_APP_ID
+ADZUNA_APP_KEY
+
+DB_HOST
+DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+```
+
+---
+
+# 📈 Sample Analytics
+
+The dashboard enables analysis such as:
+
+* Most in-demand programming languages
+* Top hiring companies
+* Geographic hiring distribution
+* Daily hiring trends
+* Frequently occurring skill combinations
+
+---
+
+# 📌 Future Enhancements
+
+* Docker support
+* Apache Airflow orchestration
+* Historical trend forecasting
+* Salary analytics
+* Power BI integration
+* REST API for analytics
+* Multi-source job aggregation
+
+---
+
+# 👩‍💻 Author
+
+**Shivani E**
+
+Final Year B.Tech Computer Science Student
+
+SRM Institute of Science and Technology
+
+Passionate about Data Engineering, Cloud Technologies, Analytics, and Software Development.
