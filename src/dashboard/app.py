@@ -16,14 +16,16 @@ st.set_page_config(page_title="Tech Job Market Intelligence", layout="wide")
 def get_db_connection():
     try:
         return psycopg2.connect(
-            dbname=os.getenv("DB_NAME", "job_intelligence"),
-            user=os.getenv("DB_USER", "shivani.e1"),
-            password=os.getenv("DB_PASS", ""),
-            host=os.getenv("DB_HOST", "localhost"),
-            port=os.getenv("DB_PORT", "5432"),
-            connect_timeout=3 # Quick fail for fallback
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            sslmode="require",
+            connect_timeout=5
         )
-    except Exception:
+    except psycopg2.Error:
+        st.sidebar.warning("⚠️ PostgreSQL connection unavailable. Switching to CSV mode.")
         return None
 
 # Sidebar Configuration

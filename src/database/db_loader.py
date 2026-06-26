@@ -1,6 +1,5 @@
 import pandas as pd
 import psycopg2
-from psycopg2 import extras
 import os
 from dotenv import load_dotenv
 import ast
@@ -8,20 +7,25 @@ import ast
 load_dotenv()
 
 # Database credentials from .env
-DB_NAME = os.getenv("DB_NAME", "job_intelligence")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASS = os.getenv("DB_PASS", "password")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
 
 def get_db_connection():
-    return psycopg2.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS,
-        host=DB_HOST,
-        port=DB_PORT
-    )
+    try:
+        return psycopg2.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            dbname=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            sslmode="require",
+            connect_timeout=5
+        )
+    except psycopg2.Error as e:
+        raise RuntimeError(f"Failed to connect to PostgreSQL: {e}")
 
 def load_data_to_dw(csv_path):
     """Loads processed jobs and skills into the normalized PostgreSQL schema."""
@@ -73,35 +77,8 @@ def load_data_to_dw(csv_path):
         cur.close()
         conn.close()
 
-def create_database_if_not_exists():
-    """Connects to default 'postgres' database and creates the target DB if it doesn't exist."""
-    try:
-        conn = psycopg2.connect(
-            dbname="postgres",
-            user=DB_USER,
-            password=DB_PASS,
-            host=DB_HOST,
-            port=DB_PORT
-        )
-        conn.autocommit = True
-        cur = conn.cursor()
-        
-        # Check if database exists
-        cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (DB_NAME,))
-        exists = cur.fetchone()
-        if not exists:
-            print(f"Database '{DB_NAME}' does not exist. Creating...")
-            cur.execute(f'CREATE DATABASE "{DB_NAME}"')
-            print(f"Database '{DB_NAME}' created successfully.")
-        else:
-            print(f"Database '{DB_NAME}' already exists.")
-            
-        cur.close()
-        conn.close()
-    except Exception as e:
-        print(f"Error checking/creating database '{DB_NAME}': {e}")
-        print("Make sure your PostgreSQL server is running and the credentials in .env are correct.")
-        raise e
+# NOTE: create_database_if_not_exists() has been removed.
+# Neon databases are managed through the Neon console — no local DB creation needed.
 
 def initialize_schema():
     """Executes schema_design.sql to create the database tables if they do not exist."""
@@ -135,11 +112,9 @@ if __name__ == "__main__":
     PROCESSED_DATA = os.path.abspath(os.path.join(BASE_DIR, "../../data/processed/processed_jobs.csv"))
     
     try:
-        # 1. Ensure database exists
-        create_database_if_not_exists()
-        # 2. Ensure schema/tables exist
+        # 1. Ensure schema/tables exist on Neon (database already exists on Neon console)
         initialize_schema()
-        # 3. Load processed data into DB
+        # 2. Load processed data into DB
         load_data_to_dw(PROCESSED_DATA)
     except Exception as e:
         print(f"Database sync/load aborted: {e}")
