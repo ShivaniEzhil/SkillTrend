@@ -39,9 +39,17 @@ jobs:
 
     - name: Run ETL Processor
       run: |
-        cd src/processing
-        python processor.py
-        cd ../..
+        python src/processing/processor.py
+
+    - name: Load Processed Data into Neon PostgreSQL
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        python src/database/db_loader.py
 
     - name: Cleanup Old Raw Data (Keep last 7 days)
       run: |

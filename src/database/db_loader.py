@@ -1,19 +1,28 @@
+import os
+import ast
 import pandas as pd
 import psycopg2
-import os
+from psycopg2.extras import execute_values
 from dotenv import load_dotenv
-import ast
 
 load_dotenv()
 
-# Database credentials from .env
+# ==============================
+# Database Configuration
+# ==============================
+
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
+
 def get_db_connection():
+    """
+    Create a secure PostgreSQL connection.
+    """
+
     try:
         return psycopg2.connect(
             host=DB_HOST,
@@ -24,97 +33,226 @@ def get_db_connection():
             sslmode="require",
             connect_timeout=5
         )
+
     except psycopg2.Error as e:
-        raise RuntimeError(f"Failed to connect to PostgreSQL: {e}")
+        raise RuntimeError(
+            f"Unable to connect to PostgreSQL:\n{e}"
+        )
 
-def load_data_to_dw(csv_path):
-    """Loads processed jobs and skills into the normalized PostgreSQL schema."""
-    if not os.path.exists(csv_path):
-        print(f"Error: {csv_path} not found.")
-        return
 
-    df = pd.read_csv(csv_path)
-    # Convert 'skills' column back to actual lists
-    df['skills'] = df['skills'].apply(ast.literal_eval)
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    try:
-        # 1. Insert Jobs
-        for _, row in df.iterrows():
-            cur.execute("""
-                INSERT INTO jobs (job_id, title, company, location, description, source, posted_date)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (job_id) DO UPDATE SET
-                    title = EXCLUDED.title,
-                    company = EXCLUDED.company;
-            """, (row['id'], row['title'], row['company'], row['location'], row['description'], row['source'], row['posted_date']))
-
-        # 2. Insert Skills and Mapping
-        for _, row in df.iterrows():
-            job_id = row['id']
-            skills = row['skills']
-            
-            for skill in skills:
-                # Insert skill into master list if not exists
-                cur.execute("INSERT INTO skills (skill_name) VALUES (%s) ON CONFLICT (skill_name) DO NOTHING", (skill,))
-                
-                # Get skill_id
-                cur.execute("SELECT skill_id FROM skills WHERE skill_name = %s", (skill,))
-                skill_id = cur.fetchone()[0]
-                
-                # Map job to skill
-                cur.execute("INSERT INTO job_skills (job_id, skill_id) VALUES (%s, %s) ON CONFLICT DO NOTHING", (job_id, skill_id))
-
-        conn.commit()
-        print(f"Successfully loaded {len(df)} jobs into the Data Warehouse.")
-
-    except Exception as e:
-        conn.rollback()
-        print(f"Failed to load data to DB: {e}")
-    finally:
-        cur.close()
-        conn.close()
-
-# NOTE: create_database_if_not_exists() has been removed.
-# Neon databases are managed through the Neon console — no local DB creation needed.
+# ==============================
+# Database Schema
+# ==============================
 
 def initialize_schema():
-    """Executes schema_design.sql to create the database tables if they do not exist."""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    schema_path = os.path.abspath(os.path.join(base_dir, "schema_design.sql"))
-    
-    if not os.path.exists(schema_path):
-        print(f"Error: Schema design file not found at {schema_path}")
-        return
+    """
+    Creates tables/views if they don't already exist.
+    """
 
-    print("Initializing database tables...")
-    conn = get_db_connection()
-    cur = conn.cursor()
-    try:
-        with open(schema_path, 'r') as f:
-            schema_sql = f.read()
-        cur.execute(schema_sql)
-        conn.commit()
-        print("Database schema loaded successfully.")
-    except Exception as e:
-        conn.rollback()
-        print(f"Failed to initialize schema: {e}")
-        raise e
-    finally:
-        cur.close()
-        conn.close()
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    schema_path = os.path.join(base_dir, "schema_design.sql")
+
+    if not os.path.exists(schema_path):
+        raise FileNotFoundError(schema_path)
+
+    print("Checking database schema...")
+
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+
+            with open(schema_path, "r", encoding="utf-8") as f:
+                cur.execute(f.read())
+
+            conn.commit()
+
+    print("Schema ready.")
+
+def load_data_to_dw(csv_path):
+    """
+    Load processed jobs into the PostgreSQL warehouse using bulk inserts.
+    """
+
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(csv_path)
+
+    print("Reading processed dataset...")
+
+    df = pd.read_csv(csv_path)
+    df["skills"] = df["skills"].apply(
+        lambda x: ast.literal_eval(x) if pd.notna(x) else []
+    )
+
+    print(f"Loaded {len(df)} jobs.")
+
+    duplicate_count = df.duplicated(subset=["id"]).sum()
+
+
+    # Remove duplicate job IDs
+    df = df.drop_duplicates(subset=["id"], keep="last")
+
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+
+            # --------------------------------------------------
+            # 1. Bulk Insert Jobs
+            # --------------------------------------------------
+
+            print("Loading jobs...")
+
+            job_rows = [
+                (
+                    row.id,
+                    row.title,
+                    row.company,
+                    row.location,
+                    row.description,
+                    row.source,
+                    row.posted_date,
+                )
+                for row in df.itertuples(index=False)
+            ]
+
+            execute_values(
+                cur,
+                """
+                INSERT INTO jobs (
+                    job_id,
+                    title,
+                    company,
+                    location,
+                    description,
+                    source,
+                    posted_date
+                )
+                VALUES %s
+                ON CONFLICT (job_id)
+                DO UPDATE SET
+                    title = EXCLUDED.title,
+                    company = EXCLUDED.company,
+                    location = EXCLUDED.location,
+                    description = EXCLUDED.description,
+                    source = EXCLUDED.source,
+                    posted_date = EXCLUDED.posted_date;
+                """,
+                job_rows,
+                page_size=500
+            )
+
+            print(f"✓ Loaded {len(job_rows)} jobs.")
+
+            # --------------------------------------------------
+            # 2. Collect Unique Skills
+            # --------------------------------------------------
+
+            print("Loading skills...")
+
+            unique_skills = sorted({
+                skill
+                for skills in df["skills"]
+                for skill in skills
+                if skill
+            })
+
+            execute_values(
+                cur,
+                """
+                INSERT INTO skills (skill_name)
+                VALUES %s
+                ON CONFLICT (skill_name)
+                DO NOTHING;
+                """,
+                [(skill,) for skill in unique_skills],
+                page_size=500
+            )
+
+            print(f"✓ Loaded {len(unique_skills)} unique skills.")
+
+            # --------------------------------------------------
+            # 3. Read Skill IDs Once
+            # --------------------------------------------------
+
+            cur.execute(
+                """
+                SELECT skill_id, skill_name
+                FROM skills;
+                """
+            )
+
+            skill_lookup = {
+                skill_name: skill_id
+                for skill_id, skill_name in cur.fetchall()
+            }
+
+            # --------------------------------------------------
+            # 4. Build Job-Skill Mapping
+            # --------------------------------------------------
+
+            print("Creating job-skill mappings...")
+
+            mapping_rows = set()
+
+            for row in df.itertuples(index=False):
+
+                for skill in row.skills:
+
+                    if not skill:
+                        continue
+
+                    skill_id = skill_lookup.get(skill)
+
+                    if skill_id:
+                        mapping_rows.add(
+                            (
+                                row.id,
+                                skill_id
+                            )
+                        )
+
+            mapping_rows = list(mapping_rows)
+
+            execute_values(
+                cur,
+                """
+                INSERT INTO job_skills (
+                    job_id,
+                    skill_id
+                )
+                VALUES %s
+                ON CONFLICT DO NOTHING;
+                """,
+                mapping_rows,
+                page_size=1000
+            )
+
+            print(f"✓ Loaded {len(mapping_rows)} job-skill mappings.")
+
+            conn.commit()
+
+    print("\nDatabase successfully synchronized.")
+
+# ==============================
+# Main Entry Point
+# ==============================
 
 if __name__ == "__main__":
-    # Resolve the path to the processed CSV relative to this script's directory
+
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    PROCESSED_DATA = os.path.abspath(os.path.join(BASE_DIR, "../../data/processed/processed_jobs.csv"))
-    
+
+    PROCESSED_DATA = os.path.abspath(
+        os.path.join(BASE_DIR, "../../data/processed/processed_jobs.csv")
+    )
+
+    print("=" * 60)
+    print("Tech Job Market Intelligence")
+    print("Database Synchronization")
+    print("=" * 60)
+
     try:
-        # 1. Ensure schema/tables exist on Neon (database already exists on Neon console)
         initialize_schema()
-        # 2. Load processed data into DB
         load_data_to_dw(PROCESSED_DATA)
+
+        print("\nDatabase synchronization completed successfully.")
+
     except Exception as e:
-        print(f"Database sync/load aborted: {e}")
+        print("\nDatabase synchronization failed.")
+        print(e)
