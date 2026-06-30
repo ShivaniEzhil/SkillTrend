@@ -1,0 +1,92 @@
+[
+    {
+        "id": "5513049976",
+        "title": "Data Engineer-Data engineer-Engineering",
+        "company": "EXL",
+        "location": "Noida, Ghaziabad",
+        "description": "Description Data Engineers design and build data systems and pipelines. Responsibilities include developing data processing workflows, optimizing data storage, and ensuring data accuracy. You will collaborate with data scientists and analysts to meet data requirements and resolve data issues. Strong experience in data engineering and problem-solving skills are required. Responsibilities Design and implement data pipelines, Optimize data processing and storage, Ensure data solutions meet perform\u2026",
+        "source": "Adzuna",
+        "posted_date": "2025-11-25T23:00:33Z"
+    },
+    {
+        "id": "5766299979",
+        "title": "Data Engineer",
+        "company": "Evnek Technologies Pvt Ltd",
+        "location": "Dadar, Mumbai",
+        "description": "Job Title: Data Engineer Experience: 2\u20133 Years Location: Mumbai (Worli) Work Mode: Onsite Notice Period: Immediate or max 15days preffered Role Overview We are seeking a talented and motivated Data Engineer with hands-on experience in PySpark , SQL, and Big Data technologies . The ideal candidate will be responsible for designing, developing, and optimizing scalable data pipelines that support large-scale data processing, analytics, and integration initiatives. This role requires strong technic\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-17T09:33:34Z"
+    },
+    {
+        "id": "5745059283",
+        "title": "Data Engineer",
+        "company": "Commergence",
+        "location": "India",
+        "description": "KEY SKILLS REQUIRED Extensive hands-on experience with Azure Data Lake (including Blob Storage and Delta), Azure Synapse Analytics, and Databricks. Proven expertise in SQL/Azure SQL data warehousing and advanced query optimisation. Strong background in data engineering practices, including release management, environment controls, and CI/CD pipeline orchestration. Proficiency in Python and Spark for data processing and automation. Ability to translate business requirements into effective data a\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-30T06:08:58Z"
+    },
+    {
+        "id": "5576136478",
+        "title": "Data Engineer",
+        "company": "NPS Prism",
+        "location": "Mini Sectt., Gurgaon",
+        "description": "NPS Prism Title: Data Engineer Hiring Location: Gurugram, India (Work From Home Role) Experience: 3\u20136 Years Employment Type: Full-time Company Profile: NPS Prism is a market-leading, cloud-based CX benchmarking and operational improvement platform owned by Bain & Company. NPS Prism provides its customers with actionable insights and analysis that guide the creation of game-changing customer experiences. Based on rock-solid sampling, research, and analytic methodology, it lets customers see how \u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-09T23:42:52Z"
+    },
+    {
+        "id": "5775043371",
+        "title": "Data Engineer",
+        "company": "Trigent Software Private Limited",
+        "location": "India",
+        "description": "As a Data Engineer, a typical day involves designing, developing, and maintaining comprehensive data solutions that support the generation, collection, and processing of data. This role requires creating efficient data pipelines to facilitate smooth data flow and ensuring the integrity and quality of data throughout its lifecycle. The position also involves implementing extract, transform, and load processes to enable seamless migration and deployment of data across various systems, contributin\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-24T23:19:31Z"
+    },
+    {
+        "id": "5775043617",
+        "title": "Data Engineer",
+        "company": "Arminus",
+        "location": "Chandni Chowk, North Delhi",
+        "description": "Job Role: Data Engineer Role Overview and Expected Deliverables The engineer will design, build and operate scalable, secure and analytics ready data pipelines and models across GCP BigQuery and AWS, delivering: - Airflow orchestrated data workflows and automations. - DBT Cloud transformations, testing frameworks and environment governance. - Robust CI/CD and Infrastructure as Code (IaC) deployments (GitHub Actions, Bitbucket, Bamboo, Terraform or CloudFormation). - Performance optimisation acr\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-24T23:20:17Z"
+    },
+    {
+        "id": "5577277789",
+        "title": "Data Engineer",
+        "company": "Ikigai Labs",
+        "location": "India",
+        "description": "We are seeking a Data Engineer who excels in cleaning, transforming, and preparing complex data for integration into machine learning models. In this role, you will work closely with clients to understand their data and ensure it is properly formatted, validated, and optimized for use in our data pipelines. This position emphasizes data hygiene, reconciliation, and transformation\u2014turning raw, messy data into structured, reliable datasets that flow seamlessly through our systems. The ideal candi\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-10T08:42:53Z"
+    },
+    {
+        "id": "4732696920",
+        "title": "Data Engineer",
+        "company": "Mindpool Technologies",
+        "location": "Yerwada, Pune",
+        "description": "Mindpool Technology is hiring for Data Engineer for Pune Location Job Description Our Technical team is looking for a Data Engineer to part of EDWBI platform team to help build Data Validation framework and related validation reports leveraging existing EDWBI platform along with regular enhancements and support for the core platform. The Data Engineer combines a passion for improving data quality and integrity and applies innovation and creative thinking to develop a continuous data improvement\u2026",
+        "source": "Adzuna",
+        "posted_date": "2024-06-12T17:20:00Z"
+    },
+    {
+        "id": "5758416389",
+        "title": "Data Engineer",
+        "company": "ScatterPie Analytics Private Limited",
+        "location": "Mulund West, Mumbai",
+        "description": "About the Role ScatterPie Analytics is seeking a Data Engineer to join our growing Data Platforms & Engineering team. The ideal candidate will be responsible for designing, developing, and maintaining data pipelines, ensuring data quality, and supporting business intelligence initiatives. This role requires strong SQL and Python skills, along with a passion for transforming raw data into meaningful business insights. Key Responsibilities Develop and maintain SQL queries, stored procedures, view\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-10T17:05:18Z"
+    },
+    {
+        "id": "5759699679",
+        "title": "Data Engineer",
+        "company": "Weekday AI",
+        "location": "India",
+        "description": "This role is for one of the Weekday's clients Salary range: Rs 500000 - Rs 1000000 (ie INR 5-10 LPA) Experience: 3 yrs Location: Hyderabad Job Type: full-time We are looking for a highly motivated and experienced Data Engineer with strong expertise in Snowflake, Data Warehousing, Python, and ETL/ELT development. The ideal candidate will be responsible for designing, developing, and maintaining scalable data platforms that enable efficient data processing, reporting, and analytics across the org\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-11T13:14:33Z"
+    }
+]
