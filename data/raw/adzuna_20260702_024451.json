@@ -1,0 +1,92 @@
+[
+    {
+        "id": "5783568951",
+        "title": "Technical Delivery Lead- Data Engineering",
+        "company": "Narwal",
+        "location": "India",
+        "description": "About Us : Narwal, with its Global Delivery Model, strategically expands its reach across North America, the United Kingdom, and an offshore development centre in India. Delivery cutting edge AI, Data, and Quality Engineering solutions and consistently surpassing expectations. Narwal has achieved remarkable triple-digit growth rates year after year, earning accolades such as Inc. 5000, Best IT Services Company, Best Data Technology Company, and Partner of the Year with Tricentis. Our Vision: To\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-07-01T17:19:11Z"
+    },
+    {
+        "id": "5771700385",
+        "title": "Data Loss Prevention Engineer",
+        "company": "Cherry Bekaert",
+        "location": "Chennai, Tamil Nadu",
+        "description": "About the Role Cherry Bekaert is looking for a Data Loss Prevention (DLP) Engineer to help build and strengthen its enterprise data protection program. In this role, you\u2019ll design, implement, and optimize DLP controls across Microsoft Purview, cloud platforms, and network/email security tools\u2014ensuring sensitive data is protected and aligned with regulatory and security standards. What You\u2019ll Do DLP Strategy & Implementation Design and manage DLP policies across Microsoft 365 (Exchange, SharePoi\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-21T17:10:05Z"
+    },
+    {
+        "id": "5753863584",
+        "title": "Electric Wiring Harness (EWH) Engineer - Data Librarian",
+        "company": "Cableteque",
+        "location": "India",
+        "description": "Cableteque comprises an international team with expertise in wire interconnects, CAD deployments, data exchange protocols, and AI. Our team is located worldwide, including the US, India, & Europe. This allows us to assemble diverse perspectives, comprehensive knowledge, and specialized know-how to deliver the best software products and services to our clients. We are looking for an Electrical Wire Harness (EWH) Engineer to create, build, and maintain a highly detailed electrical/interconnect pa\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-06T07:45:16Z"
+    },
+    {
+        "id": "5513049976",
+        "title": "Data Engineer-Data engineer-Engineering",
+        "company": "EXL",
+        "location": "Noida, Ghaziabad",
+        "description": "Description Data Engineers design and build data systems and pipelines. Responsibilities include developing data processing workflows, optimizing data storage, and ensuring data accuracy. You will collaborate with data scientists and analysts to meet data requirements and resolve data issues. Strong experience in data engineering and problem-solving skills are required. Responsibilities Design and implement data pipelines, Optimize data processing and storage, Ensure data solutions meet perform\u2026",
+        "source": "Adzuna",
+        "posted_date": "2025-11-25T23:00:33Z"
+    },
+    {
+        "id": "5766299979",
+        "title": "Data Engineer",
+        "company": "Evnek Technologies Pvt Ltd",
+        "location": "Dadar, Mumbai",
+        "description": "Job Title: Data Engineer Experience: 2\u20133 Years Location: Mumbai (Worli) Work Mode: Onsite Notice Period: Immediate or max 15days preffered Role Overview We are seeking a talented and motivated Data Engineer with hands-on experience in PySpark , SQL, and Big Data technologies . The ideal candidate will be responsible for designing, developing, and optimizing scalable data pipelines that support large-scale data processing, analytics, and integration initiatives. This role requires strong technic\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-17T09:33:34Z"
+    },
+    {
+        "id": "5745059283",
+        "title": "Data Engineer",
+        "company": "Commergence",
+        "location": "India",
+        "description": "KEY SKILLS REQUIRED Extensive hands-on experience with Azure Data Lake (including Blob Storage and Delta), Azure Synapse Analytics, and Databricks. Proven expertise in SQL/Azure SQL data warehousing and advanced query optimisation. Strong background in data engineering practices, including release management, environment controls, and CI/CD pipeline orchestration. Proficiency in Python and Spark for data processing and automation. Ability to translate business requirements into effective data a\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-05-30T06:08:58Z"
+    },
+    {
+        "id": "5576136478",
+        "title": "Data Engineer",
+        "company": "NPS Prism",
+        "location": "Mini Sectt., Gurgaon",
+        "description": "NPS Prism Title: Data Engineer Hiring Location: Gurugram, India (Work From Home Role) Experience: 3\u20136 Years Employment Type: Full-time Company Profile: NPS Prism is a market-leading, cloud-based CX benchmarking and operational improvement platform owned by Bain & Company. NPS Prism provides its customers with actionable insights and analysis that guide the creation of game-changing customer experiences. Based on rock-solid sampling, research, and analytic methodology, it lets customers see how \u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-09T23:42:52Z"
+    },
+    {
+        "id": "5775043371",
+        "title": "Data Engineer",
+        "company": "Trigent Software Private Limited",
+        "location": "India",
+        "description": "As a Data Engineer, a typical day involves designing, developing, and maintaining comprehensive data solutions that support the generation, collection, and processing of data. This role requires creating efficient data pipelines to facilitate smooth data flow and ensuring the integrity and quality of data throughout its lifecycle. The position also involves implementing extract, transform, and load processes to enable seamless migration and deployment of data across various systems, contributin\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-24T23:19:31Z"
+    },
+    {
+        "id": "5775043617",
+        "title": "Data Engineer",
+        "company": "Arminus",
+        "location": "Chandni Chowk, North Delhi",
+        "description": "Job Role: Data Engineer Role Overview and Expected Deliverables The engineer will design, build and operate scalable, secure and analytics ready data pipelines and models across GCP BigQuery and AWS, delivering: - Airflow orchestrated data workflows and automations. - DBT Cloud transformations, testing frameworks and environment governance. - Robust CI/CD and Infrastructure as Code (IaC) deployments (GitHub Actions, Bitbucket, Bamboo, Terraform or CloudFormation). - Performance optimisation acr\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-06-24T23:20:17Z"
+    },
+    {
+        "id": "5577277789",
+        "title": "Data Engineer",
+        "company": "Ikigai Labs",
+        "location": "India",
+        "description": "We are seeking a Data Engineer who excels in cleaning, transforming, and preparing complex data for integration into machine learning models. In this role, you will work closely with clients to understand their data and ensure it is properly formatted, validated, and optimized for use in our data pipelines. This position emphasizes data hygiene, reconciliation, and transformation\u2014turning raw, messy data into structured, reliable datasets that flow seamlessly through our systems. The ideal candi\u2026",
+        "source": "Adzuna",
+        "posted_date": "2026-01-10T08:42:53Z"
+    }
+]
